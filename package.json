@@ -1,0 +1,20 @@
+{
+  "name": "programacao-automacao-testes",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "mocha trabalho-final/trabalho-final.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com-personal:marcellapacob/pgtas-programacao-js.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "mocha": "^11.5.0"
+  }
+}
