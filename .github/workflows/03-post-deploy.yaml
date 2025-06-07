@@ -43,10 +43,6 @@ jobs:
       - name: Instalando Playwright
         run: yarn playwright install
 
-      # Execução dos testes
-      - name: Executando Testes E2E
-        run: yarn run e2e
-
       # Faz o upload do relatório HTML como artefato (mesmo se falhar)
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}

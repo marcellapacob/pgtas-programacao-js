@@ -30,9 +30,6 @@ jobs:
       - name: Executando os Testes Unitários
         run: yarn test
 
-  e2e-tests:
-    runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v4
 
