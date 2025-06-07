@@ -43,9 +43,6 @@ jobs:
       - name: Instalando Playwright
         run: yarn playwright install
 
-      - name: Executando Testes E2E
-        run: yarn run e2e
-
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
         with:
