@@ -1,0 +1,55 @@
+# CI de Nível 06 - Disparo automático depois de um outro pipeline ser executado (workflow_run)
+
+# Nome do pipeline
+name: 'Execução por Deploy'
+
+# Regras de disparo (gatilhos ou triggers)
+# Gatilho de execução automática a partir de outro workflow = workflow_run
+on:
+  workflow_run:
+    workflows: ['Execução Manual']
+    types:
+      - completed
+
+# Trabalhos/tarefas dentro do pipeline = jobs
+jobs:
+  # Nome do trabalho
+  e2e-tests:
+    # Máquina onde o job será executado
+    runs-on: ubuntu-latest
+
+    # condicional - if
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+
+    # Passos do script do build
+    steps:
+      # Clone do projeto
+      - uses: actions/checkout@v4
+
+      # Instalação do node.js
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.x
+
+      # Instalação do yarn
+      - name: Instalando yarn
+        run: npm install -g yarn
+
+      # Instalação das dependências do projeto
+      - name: Instalando dependências do projeto
+        run: yarn
+
+      # Instalação do Playwright
+      - name: Instalando Playwright
+        run: yarn playwright install
+
+      # Execução dos testes
+      - name: Executando Testes E2E
+        run: yarn run e2e
+
+      # Faz o upload do relatório HTML como artefato (mesmo se falhar)
+      - uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: playwright-report
+          path: ./playwright-report
