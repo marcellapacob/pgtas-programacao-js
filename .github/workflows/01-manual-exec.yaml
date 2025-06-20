@@ -1,37 +1,25 @@
-# CI de Nível 01 - Disparo manual a partir de um clique
+name: Run Mocha Tests (Weekly)
 
-# Nome do nosso 'pipeline'
-name: 'Execução Manual'
-
-# Regras de disparo (gatilhos/triggers)
-# Gatilho de execução manual = workflow_dispatch
 on:
-  workflow_dispatch:
+  schedule:
+    - cron: '0 9 * * 1'  # Toda segunda-feira às 09:00 UTC
+  workflow_dispatch:      # Permite execução manual também
 
-# Trabalhos/tarefas dentro do pipeline = jobs
 jobs:
-  e2e-tests:
-    # Máquina que o job vai executar
+  test:
     runs-on: ubuntu-latest
 
-    # Passos do script de build
     steps:
-      # Clone do projeto
-      - uses: actions/checkout@v4
+      - name: Checkout do código
+        uses: actions/checkout@v3
 
-      # Instalação do Node
-      - uses: actions/setup-node@v4
+      - name: Configurar Node.js
+        uses: actions/setup-node@v3
         with:
-          node-version: 22.x
+          node-version: '18'
 
-      # Instalação do Yarn
-      - name: Instalando Yarn
-        run: npm install -g yarn
+      - name: Instalar dependências
+        run: yarn install
 
-      # Instalação das dependências
-      - name: Instalando dependências
-        run: yarn
-
-      # Instalação do Playwright
-      - name: Instalando Playwright
-        run: yarn playwright install
+      - name: Executar testes com Mocha
+        run: yarn test
