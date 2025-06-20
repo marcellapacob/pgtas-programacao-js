@@ -1,7 +1,8 @@
-name: Run Mocha Tests (Manual)
+name: Run Mocha Tests (Weekly)
 
 on:
-  workflow_dispatch:
+  schedule:
+    - cron: '0 9 * * 1'  # Toda segunda às 09:00 UTC
 
 jobs:
   test:
